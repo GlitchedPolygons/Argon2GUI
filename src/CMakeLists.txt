@@ -14,11 +14,23 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
+set(${PROJECT_NAME}_ARGON2_IMPL ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/ref.c)
+
+if (CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
+    set(${PROJECT_NAME}_ARGON2_IMPL ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/opt.c)
+endif ()
+
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/blake2/blake2b.c
+        ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/argon2.c
+        ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/core.c
+        ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/encoding.c
+        ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/thread.c
+        ${${PROJECT_NAME}_ARGON2_IMPL}
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -45,6 +57,8 @@ else()
 endif()
 
 target_link_libraries(argon2ui PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+
+target_include_directories(argon2ui PRIVATE ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/include)
 
 set_target_properties(argon2ui PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
