@@ -32,6 +32,7 @@ set(PROJECT_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/core.c
         ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/encoding.c
         ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/thread.c
+        ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/include/argon2.h
         ${${PROJECT_NAME}_ARGON2_IMPL}
 )
 

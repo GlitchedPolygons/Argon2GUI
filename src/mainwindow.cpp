@@ -85,7 +85,8 @@ void MainWindow::on_hashButton_clicked()
     QString output;
     const QString password = ui->passwordLineEdit->text();
 
-    const char* passwordUtf8 = password.toUtf8().constData();
+    const QByteArray passwordUtf8Bytes = password.toUtf8();
+    const char* passwordUtf8 =  passwordUtf8Bytes.constData();
     const size_t passwordUtf8Length = strlen(passwordUtf8); // This is OK because according to Qt documentation, .constData() returns a NUL-terminated buffer.
 
     const int argon2_timeCost = ui->timeCostHorizontalSlider->value();
@@ -93,14 +94,12 @@ void MainWindow::on_hashButton_clicked()
     const int argon2_parallelism = ui->parallelismHorizontalSlider->value();
     const int hashLength = ui->hashLengthHorizontalSlider->value();
 
-    /*
     int r = argon2id_hash_encoded(static_cast<uint32_t>(argon2_timeCost), static_cast<uint32_t>(argon2_memoryCostMiB) * 1024, argon2_parallelism, passwordUtf8, passwordUtf8Length, salt, sizeof(salt), static_cast<size_t>(hashLength), encodedHash, sizeof(encodedHash));
     if (r != ARGON2_OK)
     {
         fprintf(stderr, "Argon2UI: argon2id failure! \"argon2id_hash_raw\" returned: %d\n", r);
         goto exit;
     }
-    */
 
     output = QString(encodedHash);
     ui->encodedHashTextEdit->setText(output);
