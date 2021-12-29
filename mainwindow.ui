@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Argon2 UI</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Hash</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <layout class="QVBoxLayout" name="hashVerticalLayout">
+          <item>
+           <layout class="QVBoxLayout" name="passwordVerticalLayout">
+            <item>
+             <widget class="QLabel" name="passwordLabel">
+              <property name="text">
+               <string>Password</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="passwordLineEdit"/>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="algoHorizontalLayout">
+            <item>
+             <widget class="QRadioButton" name="argon2idRadioButton">
+              <property name="text">
+               <string>Argon2id</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="argon2iRadioButton">
+              <property name="text">
+               <string>Argon2i</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="argon2dRadioButton">
+              <property name="text">
+               <string>Argon2d</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="hashParamsVerticalLayout">
+            <item>
+             <widget class="QLabel" name="timeCostLabel">
+              <property name="text">
+               <string>Time cost (iterations)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="timeCostHorizontalSlider">
+              <property name="maximum">
+               <number>128</number>
+              </property>
+              <property name="value">
+               <number>16</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="memoryCostLabel">
+              <property name="text">
+               <string>Memory cost (MiB)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="memoryCostHorizontalSlider">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>128</number>
+              </property>
+              <property name="value">
+               <number>32</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="parallelismLabel">
+              <property name="text">
+               <string>Parallelism (threads)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="parallelismHorizontalSlider">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>16</number>
+              </property>
+              <property name="value">
+               <number>2</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="hashButtonsHorizontalLayout">
+            <item>
+             <widget class="QPushButton" name="hashButton">
+              <property name="text">
+               <string>Hash</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="clearButton">
+              <property name="text">
+               <string>Clear</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="outputVerticalLayout">
+            <item>
+             <widget class="QLabel" name="encodedHashLabel">
+              <property name="text">
+               <string>Output</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTextEdit" name="encodedHashTextEdit"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Verify</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <layout class="QVBoxLayout" name="verifyVerticalLayout">
+          <item>
+           <layout class="QVBoxLayout" name="inputVerticalLayout">
+            <item>
+             <widget class="QLabel" name="inputLabel">
+              <property name="text">
+               <string>Input</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTextEdit" name="inputTextEdit"/>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="inputPasswordVerticalLayout">
+            <item>
+             <widget class="QLabel" name="inputPasswordLabel">
+              <property name="text">
+               <string>Password</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="inputPasswordLineEdit"/>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="verifyButtonsHorizontalLayout">
+            <item>
+             <widget class="QPushButton" name="verifyButton">
+              <property name="text">
+               <string>Verify</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="clearVerificationFieldsButton">
+              <property name="text">
+               <string>Clear</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>400</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
