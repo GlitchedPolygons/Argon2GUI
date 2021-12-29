@@ -24,7 +24,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="hashTab">
        <attribute name="title">
@@ -229,7 +229,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="inputPasswordVerticalLayout">
+         <layout class="QVBoxLayout" name="inputPasswordFieldVerticalLayout">
           <item>
            <widget class="QLabel" name="inputPasswordLabel">
             <property name="text">
@@ -238,11 +238,28 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="inputPasswordLineEdit">
-            <property name="echoMode">
-             <enum>QLineEdit::Password</enum>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="inputPasswordFieldHorizontalLayout">
+            <item>
+             <widget class="QLineEdit" name="inputPasswordLineEdit">
+              <property name="echoMode">
+               <enum>QLineEdit::Password</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="showInputPasswordButton">
+              <property name="maximumSize">
+               <size>
+                <width>64</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Show</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>
@@ -301,25 +318,11 @@
         <item>
          <layout class="QVBoxLayout" name="aboutTabVerticalLayout">
           <item>
-           <widget class="QLabel" name="aboutTabTitleLabel">
-            <property name="text">
-             <string>Argon2 UI - v1.0.0</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="aboutTabTitleSeparatorLine">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
            <layout class="QVBoxLayout" name="aboutTabInfoVerticalLayout">
             <item>
              <widget class="QLabel" name="aboutTextLabel">
               <property name="text">
-               <string>About Argon2 UI</string>
+               <string>About Argon2 UI - v1.0.0</string>
               </property>
              </widget>
             </item>
