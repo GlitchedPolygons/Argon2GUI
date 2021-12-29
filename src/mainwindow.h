@@ -15,7 +15,16 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_clearButton_clicked();
+
+    void on_hashButton_clicked();
+
 private:
     Ui::MainWindow *ui;
+    bool busy = false;
+    QString userEntropy;
+
+    void appendEntropy(const QString& entropy);
 };
 #endif // MAINWINDOW_H

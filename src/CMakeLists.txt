@@ -20,6 +20,8 @@ if (CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
     set(${PROJECT_NAME}_ARGON2_IMPL ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/opt.c)
 endif ()
 
+message(STATUS "Argon2 implementation used: ${${PROJECT_NAME}_ARGON2_IMPL}")
+
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
@@ -56,12 +58,17 @@ else()
     endif()
 endif()
 
+if (WIN32)
+    add_compile_definitions("_CRT_SECURE_NO_WARNINGS=1")
+    target_link_libraries(${PROJECT_NAME} PUBLIC bcrypt)
+endif ()
+
 target_link_libraries(argon2ui PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
 target_include_directories(argon2ui PRIVATE ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/include)
 
 set_target_properties(argon2ui PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
+    MACOSX_BUNDLE_GUI_IDENTIFIER argon2ui.glitchedpolygons.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )
