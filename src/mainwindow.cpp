@@ -34,7 +34,7 @@ static int (*hashFunction) ( /// This is the function pointer that holds a refer
 static const char* plural[] = { "", "s" };
 
 // Read n bytes from /dev/urandom (or BCryptGenRandom on Windows).
-static inline void dev_urandom(uint8_t* outputBuffer, const size_t outputBufferSize)
+static const inline void dev_urandom(uint8_t* outputBuffer, const size_t outputBufferSize)
 {
     if (outputBuffer != NULL && outputBufferSize > 0)
     {
@@ -55,9 +55,20 @@ static inline void dev_urandom(uint8_t* outputBuffer, const size_t outputBufferS
     }
 }
 
-MainWindow::MainWindow(QWidget* parent) ////
-    : QMainWindow(parent) //////////////////
-    , ui(new Ui::MainWindow) ///////////////
+static const inline argon2_type argonAlgoFromEncodedHashString(const char* encodedHashUtf8)
+{
+    if (strstr(encodedHashUtf8, "$argon2id$") == encodedHashUtf8)
+        return Argon2_id;
+
+    if (strstr(encodedHashUtf8, "$argon2i$") == encodedHashUtf8)
+        return Argon2_i;
+
+    return Argon2_d;
+}
+
+MainWindow::MainWindow(QWidget* parent) //////
+    : QMainWindow(parent) ////////////////////
+    , ui(new Ui::MainWindow) /////////////////
 {
     ui->setupUi(this);
 
@@ -238,9 +249,39 @@ void MainWindow::on_clearVerificationFieldsButton_clicked()
 {
     ui->inputTextEdit->clear();
     ui->inputPasswordLineEdit->clear();
+    ui->verificationResultLabel->clear();
 }
 
-void MainWindow::on_verifyButton_clicked() { }
+void MainWindow::on_verifyButton_clicked()
+{
+    ui->verificationResultLabel->clear();
+    repaint();
+
+    const QString password = ui->inputPasswordLineEdit->text();
+    const QString encodedHash = ui->inputTextEdit->toPlainText()
+            .replace(" ", "")
+            .replace("\t", "")
+            .replace("\n", "")
+            .replace("\r\n", "");
+
+    const QByteArray passwordUtf8Bytes = password.toUtf8();
+    const char* passwordUtf8 = passwordUtf8Bytes.constData();
+    const size_t passwordUtf8Length = strlen(passwordUtf8);
+
+    const QByteArray encodedHashUtf8Bytes = encodedHash.toUtf8();
+    const char* encodedHashUtf8 = encodedHashUtf8Bytes.constData();
+
+    const int r = argon2_verify(encodedHashUtf8, passwordUtf8, passwordUtf8Length, argonAlgoFromEncodedHashString(encodedHashUtf8));
+
+    if (r == ARGON2_OK)
+    {
+        ui->verificationResultLabel->setText("✅  Verification successful.\nArgon2 hash matches the entered password.");
+    }
+    else
+    {
+        ui->verificationResultLabel->setText(QString("❌  Verification failed.\n\"argon2_verify\" function call returned error code %1.").arg(r));
+    }
+}
 
 void MainWindow::on_showInputPasswordButton_pressed()
 {
