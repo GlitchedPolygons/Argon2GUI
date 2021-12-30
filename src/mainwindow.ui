@@ -69,32 +69,43 @@
            </layout>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="algoHorizontalLayout">
-            <item>
-             <widget class="QRadioButton" name="argon2idRadioButton">
-              <property name="text">
-               <string>Argon2id</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="argon2iRadioButton">
-              <property name="text">
-               <string>Argon2i</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="argon2dRadioButton">
-              <property name="text">
-               <string>Argon2d</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <widget class="QWidget" name="hashAlgorithmRadioButtonWidget" native="true">
+            <layout class="QHBoxLayout" name="algoHorizontalLayout">
+             <item>
+              <widget class="QRadioButton" name="argon2idRadioButton">
+               <property name="text">
+                <string>Argon2id</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+               <attribute name="buttonGroup">
+                <string notr="true">hashAlgorithmButtonGroup</string>
+               </attribute>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="argon2iRadioButton">
+               <property name="text">
+                <string>Argon2i</string>
+               </property>
+               <attribute name="buttonGroup">
+                <string notr="true">hashAlgorithmButtonGroup</string>
+               </attribute>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="argon2dRadioButton">
+               <property name="text">
+                <string>Argon2d</string>
+               </property>
+               <attribute name="buttonGroup">
+                <string notr="true">hashAlgorithmButtonGroup</string>
+               </attribute>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </item>
           <item>
            <layout class="QVBoxLayout" name="hashParamsVerticalLayout">
@@ -114,6 +125,9 @@
             </item>
             <item>
              <widget class="QSlider" name="timeCostHorizontalSlider">
+              <property name="minimum">
+               <number>1</number>
+              </property>
               <property name="maximum">
                <number>128</number>
               </property>
@@ -172,7 +186,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="hashLengthSlider">
+             <widget class="QLabel" name="hashLengthLabel">
               <property name="text">
                <string>Hash length (64 B)</string>
               </property>
@@ -231,7 +245,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QTextEdit" name="encodedHashTextEdit"/>
+             <widget class="QTextEdit" name="encodedHashTextEdit">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -250,6 +268,9 @@
            <widget class="QLabel" name="inputLabel">
             <property name="text">
              <string>Input</string>
+            </property>
+            <property name="buddy">
+             <cstring>hashAlgorithmRadioButtonWidget</cstring>
             </property>
            </widget>
           </item>
@@ -411,4 +432,7 @@
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="hashAlgorithmButtonGroup"/>
+ </buttongroups>
 </ui>
