@@ -22,19 +22,25 @@ endif ()
 
 message(STATUS "Argon2 implementation used: ${${PROJECT_NAME}_ARGON2_IMPL}")
 
+set(ARGON2_SOURCES
+    ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/blake2/blake2b.c
+    ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/argon2.c
+    ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/core.c
+    ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/encoding.c
+    ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/thread.c
+    ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/include/argon2.h
+    ${${PROJECT_NAME}_ARGON2_IMPL}
+    )
+
 set(PROJECT_SOURCES
+        ${ARGON2_SOURCES}
         main.cpp
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/blake2/blake2b.c
-        ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/argon2.c
-        ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/core.c
-        ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/encoding.c
-        ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/thread.c
-        ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/include/argon2.h
-        ${${PROJECT_NAME}_ARGON2_IMPL}
 )
+
+set_source_files_properties(${ARGON2_SOURCES} PROPERTIES LANGUAGE CXX)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(argon2ui
