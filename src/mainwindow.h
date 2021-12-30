@@ -32,6 +32,20 @@ private slots:
 
     void on_encodedHashTextEdit_selectionChanged();
 
+    void on_tabWidget_currentChanged(int index);
+
+    void on_clearVerificationFieldsButton_clicked();
+
+    void on_verifyButton_clicked();
+
+    void on_showInputPasswordButton_pressed();
+
+    void on_showInputPasswordButton_released();
+
+    void on_showPasswordButton_pressed();
+
+    void on_showPasswordButton_released();
+
 private:
     Ui::MainWindow *ui;
     bool busy = false;

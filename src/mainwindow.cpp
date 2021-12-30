@@ -12,6 +12,22 @@
 #include <QDateTime>
 #include <QCryptographicHash>
 
+static int (*hashFunction)( ///////
+        const uint32_t, ///////////
+        const uint32_t, ///////////
+        const uint32_t, ///////////
+        const void*, //////////////
+        const size_t, /////////////
+        const void*, //////////////
+        const size_t, /////////////
+        const size_t, /////////////
+        char*, ////////////////////
+        const size_t //////////////
+        ) /////////////////////////
+        = &argon2id_hash_encoded;
+
+static const char* plural[] = { "", "s" };
+
 static inline void dev_urandom(uint8_t* outputBuffer, const size_t outputBufferSize)
 {
     if (outputBuffer != NULL && outputBufferSize > 0)
@@ -33,25 +49,12 @@ static inline void dev_urandom(uint8_t* outputBuffer, const size_t outputBufferS
     }
 }
 
-static int(*hashFunction)(const uint32_t, const uint32_t,
-                          const uint32_t, const void*,
-                          const size_t, const void*,
-                          const size_t, const size_t,
-                          char*, const size_t) = &argon2id_hash_encoded;
-
-static const char* plural[] = {
-    "",
-    "s"
-};
-
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    uint8_t initialEntropy [32];
-    dev_urandom(initialEntropy,sizeof(initialEntropy));
+    uint8_t initialEntropy[32];
+    dev_urandom(initialEntropy, sizeof(initialEntropy));
     userEntropy = QString(reinterpret_cast<char*>(initialEntropy));
     appendEntropy(QDateTime::currentDateTime().toString(Qt::DateFormat::RFC2822Date));
 
@@ -61,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QObject::connect(ui->hashAlgorithmButtonGroup, SIGNAL(idClicked(int)), this, SLOT(onChangedHashAlgorithm(int)));
 
-    ui->passwordLineEdit->setFocus();
+    on_tabWidget_currentChanged(0);
 }
 
 MainWindow::~MainWindow()
@@ -79,12 +82,23 @@ void MainWindow::appendEntropy(const QString& additionalEntropy)
     userEntropy = QString(sha256.result());
 }
 
+void MainWindow::on_showPasswordButton_pressed()
+{
+    ui->passwordLineEdit->setEchoMode(QLineEdit::EchoMode::Normal);
+    ui->showPasswordButton->setText("Hide");
+}
+
+void MainWindow::on_showPasswordButton_released()
+{
+    ui->passwordLineEdit->setEchoMode(QLineEdit::EchoMode::Password);
+    ui->showPasswordButton->setText("Show");
+}
+
 void MainWindow::on_clearButton_clicked()
 {
     ui->passwordLineEdit->clear();
     ui->encodedHashTextEdit->clear();
 }
-
 
 void MainWindow::on_hashButton_clicked()
 {
@@ -97,8 +111,8 @@ void MainWindow::on_hashButton_clicked()
     ui->encodedHashTextEdit->setText("Working on it... CPU go brr!");
     repaint();
 
-    uint8_t salt[32] = {0x00};
-    char encodedHash[1024] = {0x00};
+    uint8_t salt[32] = { 0x00 };
+    char encodedHash[1024] = { 0x00 };
 
     dev_urandom(salt, 16);
     memcpy(salt + 16, userEntropy.constData(), 16);
@@ -107,7 +121,7 @@ void MainWindow::on_hashButton_clicked()
     const QString password = ui->passwordLineEdit->text();
 
     const QByteArray passwordUtf8Bytes = password.toUtf8();
-    const char* passwordUtf8 =  passwordUtf8Bytes.constData();
+    const char* passwordUtf8 = passwordUtf8Bytes.constData();
     const size_t passwordUtf8Length = strlen(passwordUtf8); // This is OK and perfectly safe because, according to Qt documentation, ".constData()" returns a NUL-terminated buffer.
 
     const int argon2_timeCost = ui->timeCostHorizontalSlider->value();
@@ -115,19 +129,7 @@ void MainWindow::on_hashButton_clicked()
     const int argon2_parallelism = ui->parallelismHorizontalSlider->value();
     const int hashLength = ui->hashLengthHorizontalSlider->value();
 
-    const int r = hashFunction
-    (
-        static_cast<uint32_t>(argon2_timeCost),
-        static_cast<uint32_t>(argon2_memoryCostMiB) * 1024,
-        argon2_parallelism,
-        passwordUtf8,
-        passwordUtf8Length,
-        salt,
-        sizeof(salt),
-        static_cast<size_t>(hashLength),
-        encodedHash,
-        sizeof(encodedHash)
-    );
+    const int r = hashFunction(static_cast<uint32_t>(argon2_timeCost), static_cast<uint32_t>(argon2_memoryCostMiB) * 1024, argon2_parallelism, passwordUtf8, passwordUtf8Length, salt, sizeof(salt), static_cast<size_t>(hashLength), encodedHash, sizeof(encodedHash));
 
     if (r == ARGON2_OK)
     {
@@ -135,7 +137,7 @@ void MainWindow::on_hashButton_clicked()
     }
     else
     {
-        char error[1024] = {0x00};
+        char error[1024] = { 0x00 };
         snprintf(error, sizeof(error), "Argon2 hash generation failed! \"%s\" function call returned: %d\n", getHashFunctionName(), r);
         fprintf(stderr, "%s", error);
         output = QString(error);
@@ -147,7 +149,7 @@ void MainWindow::on_hashButton_clicked()
 
 const char* MainWindow::getHashFunctionName() const
 {
-    switch(ui->hashAlgorithmButtonGroup->checkedId())
+    switch (ui->hashAlgorithmButtonGroup->checkedId())
     {
         default:
             return "argon2id_hash_encoded";
@@ -160,7 +162,7 @@ const char* MainWindow::getHashFunctionName() const
 
 void MainWindow::onChangedHashAlgorithm(int id)
 {
-    switch(id)
+    switch (id)
     {
         default:
             hashFunction = &argon2id_hash_encoded;
@@ -207,3 +209,39 @@ void MainWindow::on_encodedHashTextEdit_selectionChanged()
     appendEntropy(ui->encodedHashTextEdit->textCursor().selectedText());
 }
 
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    switch (index)
+    {
+        case 0:
+            ui->passwordLineEdit->setFocus();
+            ui->passwordLineEdit->selectAll();
+            break;
+        case 1:
+            ui->inputTextEdit->setFocus();
+            ui->inputTextEdit->selectAll();
+            break;
+        default:
+            break;
+    }
+}
+
+void MainWindow::on_clearVerificationFieldsButton_clicked()
+{
+    ui->inputTextEdit->clear();
+    ui->inputPasswordLineEdit->clear();
+}
+
+void MainWindow::on_verifyButton_clicked() { }
+
+void MainWindow::on_showInputPasswordButton_pressed()
+{
+    ui->inputPasswordLineEdit->setEchoMode(QLineEdit::EchoMode::Normal);
+    ui->showInputPasswordButton->setText("Hide");
+}
+
+void MainWindow::on_showInputPasswordButton_released()
+{
+    ui->inputPasswordLineEdit->setEchoMode(QLineEdit::EchoMode::Password);
+    ui->showInputPasswordButton->setText("Show");
+}
