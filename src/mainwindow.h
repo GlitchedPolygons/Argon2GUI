@@ -16,6 +16,9 @@ public:
     ~MainWindow();
 
 private slots:
+
+    void on_tabWidget_currentChanged(int index);
+
     void on_clearButton_clicked();
 
     void on_hashButton_clicked();
@@ -31,8 +34,6 @@ private slots:
     void onChangedHashAlgorithm(int id);
 
     void on_encodedHashTextEdit_selectionChanged();
-
-    void on_tabWidget_currentChanged(int index);
 
     void on_clearVerificationFieldsButton_clicked();
 

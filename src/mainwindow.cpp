@@ -12,22 +12,28 @@
 #include <QDateTime>
 #include <QCryptographicHash>
 
-static int (*hashFunction)( ///////
-        const uint32_t, ///////////
-        const uint32_t, ///////////
-        const uint32_t, ///////////
-        const void*, //////////////
-        const size_t, /////////////
-        const void*, //////////////
-        const size_t, /////////////
-        const size_t, /////////////
-        char*, ////////////////////
-        const size_t //////////////
-        ) /////////////////////////
-        = &argon2id_hash_encoded;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+static int (*hashFunction) ( /// This is the function pointer that holds a reference to the selected Argon2 algorithm variant selected by the user. ///////
+        const uint32_t, //////// Time cost paramter (n of iterations)   ///////////////////////////////////////////////////////////////////////////////////
+        const uint32_t, //////// Memory cost parameter (in KiB)         ///////////////////////////////////////////////////////////////////////////////////
+        const uint32_t, //////// Parallelism parameter (n of threads)   ///////////////////////////////////////////////////////////////////////////////////
+        const void*, /////////// The password to hash with Argon2       ///////////////////////////////////////////////////////////////////////////////////
+        const size_t, ////////// Length of the passed password          ///////////////////////////////////////////////////////////////////////////////////
+        const void*, /////////// Salt bytes to use for hashing (these should be random)   /////////////////////////////////////////////////////////////////
+        const size_t, ////////// Length of the passed salt bytes array   //////////////////////////////////////////////////////////////////////////////////
+        const size_t, ////////// Desired hash length in bytes            //////////////////////////////////////////////////////////////////////////////////
+        char*, ///////////////// Output buffer for the encoded hash      //////////////////////////////////////////////////////////////////////////////////
+        const size_t /////////// Size of the output buffer in bytes               /////////////////////////////////////////////////////////////////////////
+        ) /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        = &argon2id_hash_encoded; /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Tiny lookup table for english plural suffix (accessible via a boolean check as an index).
 static const char* plural[] = { "", "s" };
 
+// Read n bytes from /dev/urandom (or BCryptGenRandom on Windows).
 static inline void dev_urandom(uint8_t* outputBuffer, const size_t outputBufferSize)
 {
     if (outputBuffer != NULL && outputBufferSize > 0)
@@ -49,7 +55,9 @@ static inline void dev_urandom(uint8_t* outputBuffer, const size_t outputBufferS
     }
 }
 
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget* parent) ////
+    : QMainWindow(parent) //////////////////
+    , ui(new Ui::MainWindow) ///////////////
 {
     ui->setupUi(this);
 
@@ -80,6 +88,23 @@ void MainWindow::appendEntropy(const QString& additionalEntropy)
     sha256.addData((userEntropy + additionalEntropy + timestamp).toUtf8());
 
     userEntropy = QString(sha256.result());
+}
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    switch (index)
+    {
+        case 0:
+            ui->passwordLineEdit->setFocus();
+            ui->passwordLineEdit->selectAll();
+            break;
+        case 1:
+            ui->inputTextEdit->setFocus();
+            ui->inputTextEdit->selectAll();
+            break;
+        default:
+            break;
+    }
 }
 
 void MainWindow::on_showPasswordButton_pressed()
@@ -207,23 +232,6 @@ void MainWindow::on_hashLengthHorizontalSlider_valueChanged(int value)
 void MainWindow::on_encodedHashTextEdit_selectionChanged()
 {
     appendEntropy(ui->encodedHashTextEdit->textCursor().selectedText());
-}
-
-void MainWindow::on_tabWidget_currentChanged(int index)
-{
-    switch (index)
-    {
-        case 0:
-            ui->passwordLineEdit->setFocus();
-            ui->passwordLineEdit->selectAll();
-            break;
-        case 1:
-            ui->inputTextEdit->setFocus();
-            ui->inputTextEdit->selectAll();
-            break;
-        default:
-            break;
-    }
 }
 
 void MainWindow::on_clearVerificationFieldsButton_clicked()
