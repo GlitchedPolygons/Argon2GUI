@@ -8,6 +8,8 @@
 #include <bcrypt.h>
 #endif
 
+#include "constants.h"
+
 #include <argon2.h>
 #include <QDateTime>
 #include <QSettings>
@@ -31,9 +33,6 @@ static int (*hashFunction) ( /// This is the function pointer that holds a refer
         = &argon2id_hash_encoded; /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Tiny lookup table for english plural suffix (accessible via a boolean check as an index).
-static const char* plural[] = { "", "s" };
 
 // Read n bytes from /dev/urandom (or BCryptGenRandom on Windows).
 static const inline void dev_urandom(uint8_t* outputBuffer, const size_t outputBufferSize)
@@ -74,6 +73,8 @@ MainWindow::MainWindow(QWidget* parent) //////
 {
     ui->setupUi(this);
 
+    loadSettings();
+
     uint8_t initialEntropy[32];
     dev_urandom(initialEntropy, sizeof(initialEntropy));
     userEntropy = QString(reinterpret_cast<char*>(initialEntropy));
@@ -88,8 +89,8 @@ MainWindow::MainWindow(QWidget* parent) //////
     on_tabWidget_currentChanged(0);
 
 #ifdef Q_OS_WIN
-    QSettings settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", QSettings::NativeFormat);
-    if (settings.value("AppsUseLightTheme") == 0)
+    QSettings winSettings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", QSettings::NativeFormat);
+    if (winSettings.value("AppsUseLightTheme") == 0)
     {
         qApp->setStyle(QStyleFactory::create("Windows"));
         QPalette darkPalette;
@@ -122,7 +123,76 @@ MainWindow::MainWindow(QWidget* parent) //////
 
 MainWindow::~MainWindow()
 {
+    QSettings settings;
+
+    const bool saveParams = ui->saveParametersOnQuitCheckBox->isChecked();
+    const bool saveWindow = ui->saveWindowSizeOnQuitCheckBox->isChecked();
+    const bool selectTextOnFocus = ui->selectTextOnFocusCheckBox->isChecked();
+
+    if (saveParams)
+    {
+        settings.setValue(Constants::Settings::hashAlgo, QVariant(ui->hashAlgorithmButtonGroup->checkedId()));
+        settings.setValue(Constants::Settings::timeCost, QVariant(ui->timeCostHorizontalSlider->value()));
+        settings.setValue(Constants::Settings::memoryCost, QVariant(ui->memoryCostHorizontalSlider->value()));
+        settings.setValue(Constants::Settings::parallelism, QVariant(ui->parallelismHorizontalSlider->value()));
+        settings.setValue(Constants::Settings::hashLength, QVariant(ui->hashLengthHorizontalSlider->value()));
+    }
+
+    if (saveWindow)
+    {
+        settings.setValue(Constants::Settings::windowWidth, QVariant(width()));
+        settings.setValue(Constants::Settings::windowHeight, QVariant(height()));
+    }
+
+    settings.setValue(Constants::Settings::saveHashParametersOnQuit, QVariant(saveParams));
+    settings.setValue(Constants::Settings::saveWindowSizeOnQuit, QVariant(saveWindow));
+    settings.setValue(Constants::Settings::selectTextOnFocus, QVariant(selectTextOnFocus));
+
     delete ui;
+}
+
+void MainWindow::loadSettings()
+{
+    QSettings::setDefaultFormat(QSettings::IniFormat);
+    QSettings settings;
+
+    const bool saveParams = settings.value(Constants::Settings::saveHashParametersOnQuit, QVariant(true)).toBool();
+    const bool saveWindow = settings.value(Constants::Settings::saveWindowSizeOnQuit, QVariant(true)).toBool();
+    const bool selectTextOnFocus = settings.value(Constants::Settings::selectTextOnFocus, QVariant(true)).toBool();
+
+    ui->saveParametersOnQuitCheckBox->setChecked(saveParams);
+    ui->saveWindowSizeOnQuitCheckBox->setChecked(saveWindow);
+    ui->selectTextOnFocusCheckBox->setChecked(selectTextOnFocus);
+
+    if (saveParams)
+    {
+        switch(settings.value(Constants::Settings::hashAlgo, QVariant(0)).toInt())
+        {
+            default:
+                ui->argon2idRadioButton->setChecked(true);
+                break;
+            case 1:
+                ui->argon2iRadioButton->setChecked(true);
+                break;
+            case 2:
+                ui->argon2dRadioButton->setChecked(true);
+                break;
+        }
+
+
+        ui->timeCostHorizontalSlider->setValue(settings.value(Constants::Settings::timeCost, QVariant(Constants::Settings::DefaultValues::timeCost)).toInt());
+        ui->memoryCostHorizontalSlider->setValue(settings.value(Constants::Settings::memoryCost, QVariant(Constants::Settings::DefaultValues::memoryCostMiB)).toInt());
+        ui->parallelismHorizontalSlider->setValue(settings.value(Constants::Settings::parallelism, QVariant(Constants::Settings::DefaultValues::parallelism)).toInt());
+        ui->hashLengthHorizontalSlider->setValue(settings.value(Constants::Settings::hashLength, QVariant(Constants::Settings::DefaultValues::hashLength)).toInt());
+    }
+
+    if (saveWindow)
+    {
+        const int w = settings.value(Constants::Settings::windowWidth, QVariant(minimumSize().width())).toInt();
+        const int h = settings.value(Constants::Settings::windowHeight, QVariant(minimumSize().height())).toInt();
+
+        this->resize(w > 0 ? w : -w, h > 0 ? h : -h);
+    }
 }
 
 void MainWindow::appendEntropy(const QString& additionalEntropy)
@@ -248,7 +318,7 @@ void MainWindow::onChangedHashAlgorithm(int id)
 
 void MainWindow::on_timeCostHorizontalSlider_valueChanged(int value)
 {
-    QString newLabelText = QString("Time cost (%1 iteration%2)").arg(value).arg(plural[value > 1]);
+    QString newLabelText = QString("Time cost (%1 iteration%2)").arg(value).arg(Constants::plural[value > 1]);
     ui->timeCostLabel->setText(newLabelText);
     appendEntropy(newLabelText);
 }
@@ -262,7 +332,7 @@ void MainWindow::on_memoryCostHorizontalSlider_valueChanged(int value)
 
 void MainWindow::on_parallelismHorizontalSlider_valueChanged(int value)
 {
-    QString newLabelText = QString("Parallelism (%1 thread%2)").arg(value).arg(plural[value > 1]);
+    QString newLabelText = QString("Parallelism (%1 thread%2)").arg(value).arg(Constants::plural[value > 1]);
     ui->parallelismLabel->setText(newLabelText);
     appendEntropy(newLabelText);
 }
@@ -328,3 +398,20 @@ void MainWindow::on_showInputPasswordButton_released()
     ui->inputPasswordLineEdit->setEchoMode(QLineEdit::EchoMode::Password);
     ui->showInputPasswordButton->setText("Show");
 }
+
+void MainWindow::on_factoryResetPushButton_clicked()
+{
+    ui->argon2idRadioButton->setChecked(true);
+
+    ui->saveParametersOnQuitCheckBox->setChecked(Constants::Settings::DefaultValues::saveHashParametersOnQuit);
+    ui->saveWindowSizeOnQuitCheckBox->setChecked(Constants::Settings::DefaultValues::saveWindowSizeOnQuit);
+    ui->selectTextOnFocusCheckBox->setChecked(Constants::Settings::DefaultValues::selectTextOnFocus);
+
+    ui->timeCostHorizontalSlider->setValue(Constants::Settings::DefaultValues::timeCost);
+    ui->memoryCostHorizontalSlider->setValue(Constants::Settings::DefaultValues::memoryCostMiB);
+    ui->parallelismHorizontalSlider->setValue(Constants::Settings::DefaultValues::parallelism);
+    ui->hashLengthHorizontalSlider->setValue(Constants::Settings::DefaultValues::hashLength);
+
+    resize(minimumWidth(), minimumHeight());
+}
+

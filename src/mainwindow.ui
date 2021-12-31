@@ -24,7 +24,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="hashTab">
        <attribute name="title">
@@ -382,17 +382,10 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QCheckBox" name="selectTextOnFocusCheckBox">
-          <property name="text">
-           <string>Select text on focus</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QCheckBox" name="saveParametersOnQuitCheckBox">
+          <property name="toolTip">
+           <string>Should the selected Argon2 hashing parameters (slider values, etc...) be saved on quit?</string>
+          </property>
           <property name="text">
            <string>Save parameters on quit</string>
           </property>
@@ -403,11 +396,34 @@
         </item>
         <item>
          <widget class="QCheckBox" name="saveWindowSizeOnQuitCheckBox">
+          <property name="toolTip">
+           <string>Should the Argon2 UI's window size and position be saved on quit?</string>
+          </property>
           <property name="text">
            <string>Save window size on quit</string>
           </property>
           <property name="checked">
            <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="selectTextOnFocusCheckBox">
+          <property name="toolTip">
+           <string>Should every text field's full text content be selected every time the field is focused/clicked on?</string>
+          </property>
+          <property name="text">
+           <string>Select text field's content on focus</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="factoryResetPushButton">
+          <property name="text">
+           <string>Restore all default values</string>
           </property>
          </widget>
         </item>

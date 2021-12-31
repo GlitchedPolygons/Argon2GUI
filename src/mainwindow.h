@@ -47,11 +47,14 @@ private slots:
 
     void on_showPasswordButton_released();
 
+    void on_factoryResetPushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     bool busy = false;
     QString userEntropy;
 
+    void loadSettings();
     void appendEntropy(const QString& entropy);
     const char* getHashFunctionName() const;
 };

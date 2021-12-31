@@ -14,33 +14,41 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
-set(${PROJECT_NAME}_ARGON2_IMPL ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/ref.c)
+set(${PROJECT_NAME}_ARGON2_IMPL ${CMAKE_CURRENT_LIST_DIR}/lib/argon2/src/ref.c)
 
 if (CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
-    set(${PROJECT_NAME}_ARGON2_IMPL ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/opt.c)
+    set(${PROJECT_NAME}_ARGON2_IMPL ${CMAKE_CURRENT_LIST_DIR}/lib/argon2/src/opt.c)
 endif ()
 
 message(STATUS "Argon2 implementation used: ${${PROJECT_NAME}_ARGON2_IMPL}")
 
 set(ARGON2_SOURCES
-    ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/blake2/blake2b.c
-    ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/argon2.c
-    ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/core.c
-    ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/encoding.c
-    ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/src/thread.c
-    ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/include/argon2.h
+    ${CMAKE_CURRENT_LIST_DIR}/lib/argon2/src/blake2/blake2b.c
+    ${CMAKE_CURRENT_LIST_DIR}/lib/argon2/src/argon2.c
+    ${CMAKE_CURRENT_LIST_DIR}/lib/argon2/src/core.c
+    ${CMAKE_CURRENT_LIST_DIR}/lib/argon2/src/encoding.c
+    ${CMAKE_CURRENT_LIST_DIR}/lib/argon2/src/thread.c
+    ${CMAKE_CURRENT_LIST_DIR}/lib/argon2/include/argon2.h
     ${${PROJECT_NAME}_ARGON2_IMPL}
     )
 
 set(PROJECT_SOURCES
         ${ARGON2_SOURCES}
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
+        ${CMAKE_CURRENT_LIST_DIR}/src/main.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/mainwindow.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/mainwindow.h
+        ${CMAKE_CURRENT_LIST_DIR}/src/mainwindow.ui
 )
 
 set_source_files_properties(${ARGON2_SOURCES} PROPERTIES LANGUAGE CXX)
+
+# Windows Icon
+set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_LIST_DIR}/img/winico.rc")
+
+#  MacOS Icon
+set(MACOSX_BUNDLE_ICON_FILE psithyros.icns)
+set(APP_ICON_MACOSX ${CMAKE_CURRENT_LIST_DIR}/img/psithyros.icns)
+set_source_files_properties(${APP_ICON_MACOSX} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(argon2ui
@@ -72,7 +80,7 @@ endif ()
 
 target_link_libraries(argon2ui PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
-target_include_directories(argon2ui PRIVATE ${CMAKE_CURRENT_LIST_DIR}/../lib/argon2/include)
+target_include_directories(argon2ui PRIVATE ${CMAKE_CURRENT_LIST_DIR}/lib/argon2/include)
 
 set_target_properties(argon2ui PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER argon2ui.glitchedpolygons.com
