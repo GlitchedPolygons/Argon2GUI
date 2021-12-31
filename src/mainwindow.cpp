@@ -11,6 +11,8 @@
 #include "constants.h"
 
 #include <argon2.h>
+#include <QDialog>
+#include <QMessageBox>
 #include <QDateTime>
 #include <QSettings>
 #include <QStyleFactory>
@@ -401,6 +403,18 @@ void MainWindow::on_showInputPasswordButton_released()
 
 void MainWindow::on_factoryResetPushButton_clicked()
 {
+    QMessageBox msgBox;
+    msgBox.setText("Are you absolutely sure?");
+    msgBox.setInformativeText("This action is irreversible! Do you really want to restore all default settings?");
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::No);
+
+    const int r = msgBox.exec();
+    if (r != QMessageBox::Yes)
+    {
+        return;
+    }
+
     ui->argon2idRadioButton->setChecked(true);
 
     ui->saveParametersOnQuitCheckBox->setChecked(Constants::Settings::DefaultValues::saveHashParametersOnQuit);

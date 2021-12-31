@@ -3,7 +3,7 @@
 
 #include <QApplication>
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     QApplication::setApplicationName(Constants::appName);
     QApplication::setApplicationVersion(Constants::appVersion);
@@ -11,8 +11,10 @@ int main(int argc, char *argv[])
     QApplication::setOrganizationName(Constants::orgName);
     QApplication::setOrganizationDomain(Constants::orgDomain);
 
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
+    QApplication application(argc, argv);
+
+    MainWindow window;
+    window.show();
+
+    return application.exec();
 }
