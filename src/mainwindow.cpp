@@ -20,7 +20,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-static int (*hashFunction) ( /// This is the function pointer that holds a reference to the selected Argon2 algorithm variant selected by the user. ///////
+static int (*hashFunction)( /// This is the function pointer that holds a reference to the selected Argon2 algorithm variant selected by the user. ///////
         const uint32_t, //////// Time cost paramter (n of iterations)   ///////////////////////////////////////////////////////////////////////////////////
         const uint32_t, //////// Memory cost parameter (in KiB)         ///////////////////////////////////////////////////////////////////////////////////
         const uint32_t, //////// Parallelism parameter (n of threads)   ///////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +69,7 @@ static const inline argon2_type argonAlgoFromEncodedHashString(const char* encod
     return Argon2_d;
 }
 
-MainWindow::MainWindow(QWidget* parent) //////
-    : QMainWindow(parent) ////////////////////
-    , ui(new Ui::MainWindow) /////////////////
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) /////////////////
 {
     ui->setupUi(this);
 
@@ -137,7 +135,7 @@ void MainWindow::loadSettings()
 
     if (saveParams)
     {
-        switch(settings.value(Constants::Settings::hashAlgo, QVariant(0)).toInt())
+        switch (settings.value(Constants::Settings::hashAlgo, QVariant(0)).toInt())
         {
             default:
                 ui->argon2idRadioButton->setChecked(true);
@@ -149,7 +147,6 @@ void MainWindow::loadSettings()
                 ui->argon2dRadioButton->setChecked(true);
                 break;
         }
-
 
         ui->timeCostHorizontalSlider->setValue(settings.value(Constants::Settings::timeCost, QVariant(Constants::Settings::DefaultValues::timeCost)).toInt());
         ui->memoryCostHorizontalSlider->setValue(settings.value(Constants::Settings::memoryCost, QVariant(Constants::Settings::DefaultValues::memoryCostMiB)).toInt());
@@ -333,11 +330,7 @@ void MainWindow::on_verifyButton_clicked()
     repaint();
 
     const QString password = ui->inputPasswordLineEdit->text();
-    const QString encodedHash = ui->inputTextEdit->toPlainText()
-            .replace(" ", "")
-            .replace("\t", "")
-            .replace("\n", "")
-            .replace("\r\n", "");
+    const QString encodedHash = ui->inputTextEdit->toPlainText().replace(" ", "").replace("\t", "").replace("\n", "").replace("\r\n", "");
 
     const QByteArray passwordUtf8Bytes = password.toUtf8();
     const char* passwordUtf8 = passwordUtf8Bytes.constData();
@@ -401,4 +394,3 @@ void MainWindow::on_factoryResetPushButton_clicked()
 
     resize(minimumWidth(), minimumHeight());
 }
-
