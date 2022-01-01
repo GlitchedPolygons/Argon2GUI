@@ -492,11 +492,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QTextEdit" name="aboutTextEdit">
+             <widget class="QTextBrowser" name="aboutTextBrowser">
               <property name="undoRedoEnabled">
                <bool>false</bool>
               </property>
               <property name="readOnly">
+               <bool>true</bool>
+              </property>
+              <property name="openExternalLinks">
                <bool>true</bool>
               </property>
              </widget>
@@ -513,7 +516,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QTextEdit" name="aboutTabLegalNoticeTextEdit">
+             <widget class="QTextBrowser" name="aboutTabLegalNoticeTextBrowser">
               <property name="undoRedoEnabled">
                <bool>false</bool>
               </property>
@@ -1527,6 +1530,9 @@ p, li { white-space: pre-wrap; }
               </property>
               <property name="textInteractionFlags">
                <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+              </property>
+              <property name="openExternalLinks">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
