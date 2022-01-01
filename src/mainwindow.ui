@@ -27,7 +27,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -442,23 +442,6 @@
          </widget>
         </item>
         <item>
-         <widget class="Line" name="restoreDefaultSettingsHorizontalSeparatorLine">
-          <property name="lineWidth">
-           <number>2</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="factoryResetPushButton">
-          <property name="text">
-           <string>Restore all default values</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <spacer name="settingsVerticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -466,10 +449,43 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>316</height>
+            <height>267</height>
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <widget class="Line" name="restoreDefaultSettingsHorizontalSeparatorLine">
+          <property name="lineWidth">
+           <number>1</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="restoreDefaultSettingsVerticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>4</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="factoryResetPushButton">
+          <property name="text">
+           <string>Restore all default values</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -1574,7 +1590,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>330</width>
-     <height>17</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
