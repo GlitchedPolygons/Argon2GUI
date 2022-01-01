@@ -7,7 +7,7 @@ int main(int argc, char* argv[])
 {
     QApplication::setApplicationName(Constants::appName);
     QApplication::setApplicationVersion(Constants::appVersion);
-    QApplication::setApplicationDisplayName("Argon2 UI");
+    QApplication::setApplicationDisplayName("Argon2 GUI");
     QApplication::setOrganizationName(Constants::orgName);
     QApplication::setOrganizationDomain(Constants::orgDomain);
 

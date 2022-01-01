@@ -85,6 +85,7 @@ MainWindow::MainWindow(QWidget* parent) //////
     ui->hashAlgorithmButtonGroup->setId(ui->argon2idRadioButton, 0);
     ui->hashAlgorithmButtonGroup->setId(ui->argon2iRadioButton, 1);
     ui->hashAlgorithmButtonGroup->setId(ui->argon2dRadioButton, 2);
+    ui->aboutTextLabel->setText(QString("About Argon2 GUI - v%1").arg(Constants::appVersion));
 
     QObject::connect(ui->hashAlgorithmButtonGroup, SIGNAL(idClicked(int)), this, SLOT(onChangedHashAlgorithm(int)));
 
