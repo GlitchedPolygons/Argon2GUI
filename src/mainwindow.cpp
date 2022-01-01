@@ -394,6 +394,10 @@ void MainWindow::on_factoryResetPushButton_clicked()
     ui->parallelismHorizontalSlider->setValue(Constants::Settings::DefaultValues::parallelism);
     ui->hashLengthHorizontalSlider->setValue(Constants::Settings::DefaultValues::hashLength);
 
+    ui->passwordLineEdit->clear();
+    ui->inputTextEdit->clear();
+    ui->inputPasswordLineEdit->clear();
+
     resize(minimumWidth(), minimumHeight());
 }
 
