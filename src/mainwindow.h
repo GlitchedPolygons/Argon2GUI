@@ -51,6 +51,8 @@ private slots:
 
     void on_factoryResetPushButton_clicked();
 
+    void onChangedFocus(QWidget*, QWidget*);
+
 private:
     Ui::MainWindow* ui;
     bool busy = false;

@@ -11,10 +11,12 @@
 #include "constants.h"
 
 #include <argon2.h>
+
+#include <QTimer>
 #include <QDialog>
-#include <QMessageBox>
 #include <QDateTime>
 #include <QSettings>
+#include <QMessageBox>
 #include <QStyleFactory>
 #include <QCryptographicHash>
 
@@ -393,4 +395,33 @@ void MainWindow::on_factoryResetPushButton_clicked()
     ui->inputPasswordLineEdit->clear();
 
     resize(minimumWidth(), minimumHeight());
+}
+
+void MainWindow::onChangedFocus(QWidget*, QWidget* newlyFocusedWidget)
+{
+    {
+        QSettings settings;
+
+        if (!settings.value(Constants::Settings::selectTextOnFocus, QVariant(Constants::Settings::DefaultValues::selectTextOnFocus)).toBool())
+        {
+            return;
+        }
+    }
+
+    if (newlyFocusedWidget == ui->inputTextEdit)
+    {
+        QTimer::singleShot(0, ui->inputTextEdit, &QTextEdit::selectAll);
+    }
+    else if (newlyFocusedWidget == ui->encodedHashTextEdit)
+    {
+        QTimer::singleShot(0, ui->encodedHashTextEdit, &QTextEdit::selectAll);
+    }
+    else if (newlyFocusedWidget == ui->passwordLineEdit)
+    {
+        QTimer::singleShot(0, ui->passwordLineEdit, &QLineEdit::selectAll);
+    }
+    else if (newlyFocusedWidget == ui->inputPasswordLineEdit)
+    {
+        QTimer::singleShot(0, ui->inputPasswordLineEdit, &QLineEdit::selectAll);
+    }
 }
