@@ -1,0 +1,2 @@
+*.icns filter=lfs diff=lfs merge=lfs -text
+*.ICNS filter=lfs diff=lfs merge=lfs -text
