@@ -34,6 +34,7 @@ set(ARGON2_SOURCES
 
 set(PROJECT_SOURCES
         ${ARGON2_SOURCES}
+        ${CMAKE_CURRENT_LIST_DIR}/res/icons.qrc
         ${CMAKE_CURRENT_LIST_DIR}/src/main.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/mainwindow.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/mainwindow.h
@@ -46,8 +47,8 @@ set_source_files_properties(${ARGON2_SOURCES} PROPERTIES LANGUAGE CXX)
 set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_LIST_DIR}/img/winico.rc")
 
 #  MacOS Icon
-set(MACOSX_BUNDLE_ICON_FILE psithyros.icns)
-set(APP_ICON_MACOSX ${CMAKE_CURRENT_LIST_DIR}/img/psithyros.icns)
+set(MACOSX_BUNDLE_ICON_FILE icon.icns)
+set(APP_ICON_MACOSX ${CMAKE_CURRENT_LIST_DIR}/img/icon.icns)
 set_source_files_properties(${APP_ICON_MACOSX} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
