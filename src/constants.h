@@ -32,7 +32,7 @@ struct Constants
     // Tiny lookup table for english plural suffix (accessible via a boolean check as an index).
     static inline const char* plural[] = { "", "s" };
 
-    static inline const char* appName = "Argon2UI";
+    static inline const char* appName = "Argon2GUI";
     static inline const char* appVersion = "1.0.0";
     static inline const char* orgName = "Glitched Polygons";
     static inline const char* orgDomain = "glitchedpolygons.com";
