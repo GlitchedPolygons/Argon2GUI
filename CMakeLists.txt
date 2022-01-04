@@ -39,7 +39,7 @@ set(PROJECT_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/src/mainwindow.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/mainwindow.h
         ${CMAKE_CURRENT_LIST_DIR}/src/mainwindow.ui
-)
+        )
 
 set_source_files_properties(${ARGON2_SOURCES} PROPERTIES LANGUAGE CXX)
 
@@ -55,6 +55,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(argon2gui
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        ${APP_ICON_RESOURCE_WINDOWS}
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET argon2gui APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -84,6 +85,7 @@ target_link_libraries(argon2gui PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_include_directories(argon2gui PRIVATE ${CMAKE_CURRENT_LIST_DIR}/lib/argon2/include)
 
 set_target_properties(argon2gui PROPERTIES
+    WIN32_EXECUTABLE true
     MACOSX_BUNDLE_GUI_IDENTIFIER argon2gui.glitchedpolygons.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
