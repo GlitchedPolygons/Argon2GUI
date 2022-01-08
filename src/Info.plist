@@ -11,13 +11,13 @@
         <key>CFBundleIconFile</key>
         <string>${MACOSX_BUNDLE_ICON_FILE}</string>
         <key>CFBundleIdentifier</key>
-        <string>com.glitchedpolygons.argon2ui.qt</string>
+        <string>com.glitchedpolygons.argon2gui.qt</string>
         <key>CFBundleInfoDictionaryVersion</key>
         <string>6.0</string>
         <key>CFBundleLongVersionString</key>
         <string>1.0.0</string>
         <key>CFBundleName</key>
-        <string>Argon2UI</string>
+        <string>Argon2GUI</string>
         <key>CFBundlePackageType</key>
         <string>APPL</string>
         <key>CFBundleShortVersionString</key>
