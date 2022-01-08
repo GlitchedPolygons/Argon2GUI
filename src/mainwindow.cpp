@@ -77,6 +77,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     loadSettings();
 
+#ifdef __APPLE__
+    setAttribute(Qt::WA_MacSmallSize);
+#endif
+
     uint8_t initialEntropy[32];
     dev_urandom(initialEntropy, sizeof(initialEntropy));
     userEntropy = QString(reinterpret_cast<char*>(initialEntropy));
@@ -218,6 +222,7 @@ void MainWindow::on_hashButton_clicked()
     }
 
     busy = true;
+
     ui->encodedHashTextEdit->setText("Working on it... CPU go brr!");
     repaint();
 
