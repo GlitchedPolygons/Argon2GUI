@@ -52,7 +52,7 @@ static const inline void dev_urandom(uint8_t* outputBuffer, const size_t outputB
             const size_t n = fread(outputBuffer, sizeof(unsigned char), outputBufferSize, rnd);
             if (n != outputBufferSize)
             {
-                fprintf(stderr, "Argon2UI: Warning! Only %llu bytes out of %llu have been read from /dev/urandom\n", n, outputBufferSize);
+                fprintf(stderr, "Argon2UI: Warning! Only %zu bytes out of %zu have been read from /dev/urandom\n", n, outputBufferSize);
             }
             fclose(rnd);
         }
