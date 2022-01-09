@@ -28,7 +28,6 @@ set(ARGON2_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/lib/argon2/src/core.c
     ${CMAKE_CURRENT_LIST_DIR}/lib/argon2/src/encoding.c
     ${CMAKE_CURRENT_LIST_DIR}/lib/argon2/src/thread.c
-    ${CMAKE_CURRENT_LIST_DIR}/lib/argon2/include/argon2.h
     ${${PROJECT_NAME}_ARGON2_IMPL}
     )
 
@@ -55,6 +54,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(argon2gui
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        ${APP_ICON_MACOSX}
         ${APP_ICON_RESOURCE_WINDOWS}
     )
 # Define target properties for Android with Qt 6 as:
@@ -71,6 +71,8 @@ else()
     else()
         add_executable(argon2gui
             ${PROJECT_SOURCES}
+            ${APP_ICON_MACOSX}
+            ${APP_ICON_RESOURCE_WINDOWS}
         )
     endif()
 endif()
