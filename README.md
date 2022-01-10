@@ -9,9 +9,9 @@ Argon2 GUI is an easy, minimal and user friendly graphical user interface around
 It's very handy for usage during development and/or for testing and implementing web services of any kind where 
 passwords are involved.
 
-Argon2 is a great way of hashing passwords. **Never** store passwords in plaintext!
+Argon2 is a great way of hashing passwords. **NEVER** store passwords in plaintext!
 
-[!Argon2 GUI Screenshot on Linux](https://files.glitchedpolygons.com/api/v1/files/qaxtmd53t3oq8g08)
+![Argon2 GUI Screenshot on Linux](https://files.glitchedpolygons.com/api/v1/files/qaxtmd53t3oq8g08)
 
 This GUI's source code is [GPL-3.0](https://github.com/GlitchedPolygons/Argon2GUI/blob/main/LICENSE) licensed and 
 available on [github.com/GlitchedPolygons/Argon2GUI](https://github.com/GlitchedPolygons/Argon2GUI) - but also 
@@ -20,7 +20,7 @@ stuff, PDF files/manual, etc...).
 
 Please consider buying it from there to support the development of nifty tools like this :)
 
-[!Argon2 GUI Screenshot on Windows 10](https://files.glitchedpolygons.com/api/v1/files/5qxc1mrit7gc9fef)
+![Argon2 GUI Screenshot on Windows 10](https://files.glitchedpolygons.com/api/v1/files/5qxc1mrit7gc9fef)
 
 ### Compatibility
 
