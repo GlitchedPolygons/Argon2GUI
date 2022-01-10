@@ -11,7 +11,11 @@ passwords are involved.
 
 Argon2 is a great way of hashing passwords. **NEVER** store passwords in plaintext!
 
-![Argon2 GUI Screenshot on Linux](https://files.glitchedpolygons.com/api/v1/files/qaxtmd53t3oq8g08)
+---
+
+![Argon2 GUI Screenshot on Linux](https://files.glitchedpolygons.com/api/v1/files/02mpxo1zjhvz8d3s)
+
+---
 
 This GUI's source code is [GPL-3.0](https://github.com/GlitchedPolygons/Argon2GUI/blob/main/LICENSE) licensed and 
 available on [github.com/GlitchedPolygons/Argon2GUI](https://github.com/GlitchedPolygons/Argon2GUI) - but also 
@@ -20,9 +24,13 @@ stuff, PDF files/manual, etc...).
 
 Please consider buying it from there to support the development of nifty tools like this :)
 
-![Argon2 GUI Screenshot on Windows 10](https://files.glitchedpolygons.com/api/v1/files/5qxc1mrit7gc9fef)
-
 ### Compatibility
 
 Argon2 GUI is available for Windows, Mac and Linux on the x64 architecture respectively. More are potentially 
 supported, but not officially tested.
+
+---
+
+![Argon2 GUI Screenshot on Windows 10](https://files.glitchedpolygons.com/api/v1/files/5qxc1mrit7gc9fef)
+
+---
