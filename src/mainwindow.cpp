@@ -91,6 +91,13 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->hashAlgorithmButtonGroup->setId(ui->argon2dRadioButton, 2);
     ui->aboutTextLabel->setText(QString("About Argon2 GUI - v%1").arg(Constants::appVersion));
 
+#ifdef __APPLE__ // Fixes the cut-off and weirdly shaped slider handle on macOS...
+    ui->timeCostHorizontalSlider->setMinimumHeight(24);
+    ui->memoryCostHorizontalSlider->setMinimumHeight(24);
+    ui->parallelismHorizontalSlider->setMinimumHeight(24);
+    ui->hashLengthHorizontalSlider->setMinimumHeight(24);
+#endif
+
     QObject::connect(ui->hashAlgorithmButtonGroup, SIGNAL(idClicked(int)), this, SLOT(onChangedHashAlgorithm(int)));
 
     on_tabWidget_currentChanged(0);
