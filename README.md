@@ -13,7 +13,7 @@ Argon2 is a great way of hashing passwords. **NEVER** store passwords in plainte
 
 ---
 
-![Argon2 GUI Screenshot on Linux](https://api.files.glitchedpolygons.com/api/v1/files/02mpxo1zjhvz8d3s)
+![Argon2 GUI Screenshot on Linux](https://api-files.glitchedpolygons.com/api/v1/files/02mpxo1zjhvz8d3s)
 
 ---
 
@@ -31,6 +31,6 @@ supported, but not officially tested.
 
 ---
 
-![Argon2 GUI Screenshot on Windows 10](https://api.files.glitchedpolygons.com/api/v1/files/5qxc1mrit7gc9fef)
+![Argon2 GUI Screenshot on Windows 10](https://api-files.glitchedpolygons.com/api/v1/files/5qxc1mrit7gc9fef)
 
 ---
